@@ -18,12 +18,17 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/course/moodleform_mod.php');
 
+// Annotation activity types
+define('ANNOTATE_TYPE_TEACHER_WRITE_GROUP', 1);
+define('ANNOTATE_TYPE_ALL_WRITE_GROUP', 2);
+define('ANNOTATE_TYPE_ALL_WRITE_INDIVIDUAL', 3);
+
 class mod_annotate_mod_form extends moodleform_mod {
 
     public function definition() {
         global $CFG;
 
-        //$editoroptions = feedback_get_editor_options();
+        //$editoroptions = annotate_get_editor_options();
 
         $mform =& $this->_form;
 
@@ -33,6 +38,20 @@ class mod_annotate_mod_form extends moodleform_mod {
         $mform->setType('name', PARAM_TEXT);
         $mform->addRule('name', null, 'required', null, 'client');
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
+
+        $this->standard_intro_elements(get_string('description', 'annotate'));
+
+        $options = [
+            ANNOTATE_TYPE_TEACHER_WRITE_GROUP => get_string('type_teacherwritegroup', 'annotate'),
+            ANNOTATE_TYPE_ALL_WRITE_GROUP => get_string('type_allwritegroup', 'annotate'),
+            ANNOTATE_TYPE_ALL_WRITE_INDIVIDUAL => get_string('type_allwriteindividual', 'annotate')
+        ];
+        $select = $mform->addElement('select', 'type', get_string('type', 'annotate'), $options);
+        $select->setSelected(ANNOTATE_TYPE_ALL_WRITE_INDIVIDUAL);
+        $mform->addHelpButton('type', 'type', 'annotate');
+        if($this->_cm) {
+            $mform->freeze('type');
+        }
 
         $this->standard_coursemodule_elements();
 

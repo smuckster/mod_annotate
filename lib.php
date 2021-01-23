@@ -27,5 +27,39 @@ defined('MOODLE_INTERNAL') || die();
  * @return int instance id
  */
 function annotate_add_instance($annotate, $mform = null) {
-    global $CFG, $DB;
+    global $DB;
+
+    $annotate->timecreated = time();
+    $annotate->id = '';
+
+    $annotate->id = $DB->insert_record('annotate', $annotate);
+
+    return $annotate->id;
+}
+
+/**
+ * Update an existing annotate module record and
+ * return a boolean representing success/failure.
+ * 
+ * @param stdClass $annotate the object given my mod_annotate_mod_form
+ * @return boolean
+ */
+function annotate_update_instance($annotate) {
+    global $DB;
+}
+
+/**
+ * Gets a full annotate record
+ * 
+ * @param int $annotateid
+ * @return object|bool The annotate instance or false
+ */
+function annotate_get_annotate($annotateid) {
+    global $DB;
+
+    if ($annotate = $DB->get_record('annotate', ['id' => $annotateid])) {
+        return $annotate;
+    }
+
+    return false;
 }
