@@ -26,8 +26,8 @@ class renderer extends plugin_renderer_base {
         return $this->render_from_template('mod_annotate/view', $context);
     }
 
-    protected function render_upload(\mod_annotate\output\upload $page) {
+    protected function render_new_text(\mod_annotate\output\new_text $page) {
         $context = $page->export_for_template($this);
-        return $this->render_from_template('mod_annotate/upload', $context);
+        return $this->render_from_template('mod_annotate/new_text', $context);
     }
 }

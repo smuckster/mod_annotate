@@ -44,16 +44,29 @@ $PAGE->set_context($context);
 
 $PAGE->requires->js_call_amd('mod_annotate/test', 'init');
 
-$outputpage = new \mod_annotate\output\view($annotate->name);
-$output = $PAGE->get_renderer('mod_annotate');
+#$outputpage = new \mod_annotate\output\view($annotate->name);
+#$output = $PAGE->get_renderer('mod_annotate');
 
-echo $output->header();
-echo $output->render($outputpage);
-
-// If no text has been entered for the instance yet,
-// provide an editor so it can be provided.
+#echo $output->header();
+#echo $output->render($outputpage);
 
 // If there is already a text for the instance, 
 // render the annotation screen.
+if ($text = $DB->get_field('annotate', 'text', ['id' => $id])) {
+    echo html_writer::div("Text variable contains: $text");
 
-echo $output->footer();
+    $outputpage = new \mod_annotate\output\view($text);
+    $output = $PAGE->get_renderer('mod_annotate');
+    echo $output->header();
+    echo $output->render($outputpage);
+    echo $output->footer();
+} 
+// If no text has been entered for the instance yet,
+// provide an editor so it can be provided.
+else {
+    $outputpage = new \mod_annotate\output\new_text();
+    $output = $PAGE->get_renderer('mod_annotate');
+    echo $output->header();
+    echo $output->render($outputpage);
+    echo $output->footer();
+}
