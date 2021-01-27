@@ -1,7 +1,7 @@
 define(['core/str'], function(str) {
 
     if(str) {
-        let test = () => {
+        const test = () => {
             alert('ES6 stuff is working');
         };
 

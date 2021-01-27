@@ -17,17 +17,34 @@
 namespace mod_annotate\output;
 
 use plugin_renderer_base;
+use html_writer;
+use \mod_annotate\forms\edit_text_form;
 
 defined('MOODLE_INTERNAL') || die();
 
 class renderer extends plugin_renderer_base {
+    public function edit_text_form() {
+        $html = '';
+
+        $mform = new edit_text_form;
+
+        // if ($mform->is_cancelled()) {
+        //     redirect($returnurl);
+        // } else if ($fromform = $mform->get_data()) {
+
+        // }
+        $html .= $mform->render();
+
+        return $html;
+    }
+
     protected function render_view(\mod_annotate\output\view $page) {
         $context = $page->export_for_template($this);
         return $this->render_from_template('mod_annotate/view', $context);
     }
 
-    protected function render_new_text(\mod_annotate\output\new_text $page) {
+    /*protected function render_new_text(\mod_annotate\output\new_text $page) {
         $context = $page->export_for_template($this);
         return $this->render_from_template('mod_annotate/new_text', $context);
-    }
+    }*/
 }

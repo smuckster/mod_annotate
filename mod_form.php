@@ -17,6 +17,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/course/moodleform_mod.php');
+require_once(__DIR__ . '/lib.php');
 
 // Annotation activity types
 define('ANNOTATE_TYPE_TEACHER_WRITE_GROUP', 1);
@@ -28,8 +29,6 @@ class mod_annotate_mod_form extends moodleform_mod {
     public function definition() {
         global $CFG;
 
-        //$editoroptions = annotate_get_editor_options();
-
         $mform =& $this->_form;
 
         $mform->addElement('header', 'general', get_string('general', 'form'));
@@ -40,6 +39,8 @@ class mod_annotate_mod_form extends moodleform_mod {
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
 
         $this->standard_intro_elements(get_string('description', 'annotate'));
+        
+        $mform->addElement('header', 'annotation', get_string('annotationsection', 'annotate'));
 
         $options = [
             ANNOTATE_TYPE_TEACHER_WRITE_GROUP => get_string('type_teacherwritegroup', 'annotate'),
@@ -53,8 +54,19 @@ class mod_annotate_mod_form extends moodleform_mod {
             $mform->freeze('type');
         }
 
+        $mform->addElement('editor', 'document', get_string('document', 'annotate'), annotate_get_editor_options($this->context));
+        $mform->setType('document', PARAM_RAW);
+        $mform->addRule('document', null, 'required');
+
         $this->standard_coursemodule_elements();
 
         $this->add_action_buttons();
+    }
+
+    public function data_preprocessing(&$default_values) {
+        if ($this->current->instance) {
+            // var_dump($default_values);
+            // die();
+        }
     }
 }

@@ -28,8 +28,12 @@ class view implements templatable, renderable {
     /** @var string $name */
     protected $name;
 
-    public function __construct($name) {
-        $this->name = $name;
+    /** @var string $document */
+    protected $document;
+
+    public function __construct(\mod_annotate\annotate $annotate) {
+        $this->name = $annotate->name;
+        $this->document = $annotate->document;
     }
 
     /**
@@ -43,6 +47,7 @@ class view implements templatable, renderable {
     public function export_for_template(\renderer_base $output) {
         $data = [];
         $data['name'] = $this->name;
+        $data['document'] = $this->document;
 
         return $data;
     }

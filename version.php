@@ -25,4 +25,4 @@
  defined('MOODLE_INTERNAL') || die();
 
  $plugin->component = 'mod_annotate'; // Full name of the plugin (used for diagnostics).
- $plugin->version = 2021012001;       // The current module version (Date: YYYYMMDDXX).
+ $plugin->version = 2021012600;       // The current module version (Date: YYYYMMDDXX).

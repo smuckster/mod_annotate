@@ -1,5 +1,5 @@
 {{!
-    This file is part of the mod_coursecertificate plugin for Moodle - http://moodle.org/
+    This file is part of the mod_annotate plugin for Moodle - http://moodle.org/
     Moodle is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -19,6 +19,15 @@
     Example context (json):
     {
         "name": "Test Annotate Module"
+        "document": "Lorem ipsum etc..."
     }
 }}
 <h1>{{name}}</h1>
+
+<p>{{#str}} viewinstructions, annotate{{/str}}</p>
+
+<hr>
+
+<div class="annotation-container">
+    {{{document}}}
+</div>

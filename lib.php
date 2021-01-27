@@ -32,6 +32,16 @@ function annotate_add_instance($annotate, $mform = null) {
     $annotate->timecreated = time();
     $annotate->id = '';
 
+    // Get document text and format without overwriting the document property
+    $tempdocument = $annotate->document['text'];
+    $tempdocumentformat = $annotate->document['format'];
+
+    $annotate->document = $tempdocument;
+    $annotate->documentformat = $tempdocumentformat;
+
+    // var_dump($annotate);
+    // die();
+
     $annotate->id = $DB->insert_record('annotate', $annotate);
 
     return $annotate->id;
@@ -62,4 +72,25 @@ function annotate_get_annotate($annotateid) {
     }
 
     return false;
+}
+
+/**
+ * Returns an array of editor options
+ * supplied to the fourth parameter when loading
+ * the editor from a form.
+ * 
+ * @param string $context The editor's context
+ * @return array
+ */
+function annotate_get_editor_options($context) {
+    return [
+        'subdirs' => 0,
+        'maxbytes' => 0,
+        'maxfiles' => 0,
+        'changeformat' => 1,
+        'context' => $context,
+        'noclean' => 1,
+        'trusttext' => 0,
+        'enable_filemanagement' => true
+    ];
 }

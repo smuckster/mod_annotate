@@ -16,6 +16,28 @@
 
 namespace mod_annotate;
 
+require_once('lib.php');
 class annotate {
-    
+    public $name;
+    public $text;
+    public $type;
+    public $annotations;
+
+    /**
+     * Construct a new annotate object by accepting
+     * its course module id then loading relevant data
+     * from the database.
+     * 
+     * @param integer $cmid Course module id
+     */
+    public function __construct($cmid) {
+        // Get records for this instance from the database
+        if (! $annotate = annotate_get_annotate($cmid)) {
+            print_error('invalidcoursemodule');
+        }
+
+        $this->name = $annotate->name;
+        $this->document = format_text($annotate->document);
+        $this->type = $annotate->type;
+    } 
 }

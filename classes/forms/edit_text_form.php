@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - https://moodle.org/
+// This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -12,20 +12,24 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>
 
-namespace mod_annotate\output;
+namespace mod_annotate\forms;
 
-use templatable;
-use renderable;
-use renderer_base;
+use moodleform;
 
 defined('MOODLE_INTERNAL') || die();
 
-class new_text implements templatable, renderable {
-    public function export_for_template(renderer_base $output) {
-        $data = [];
+require_once($CFG->libdir . '/formslib.php');
 
-        return $data;
+class edit_text_form extends moodleform {
+    public function definition() {
+        $mform =& $this->_form;
+
+        $mform->addElement('editor', 'text', get_string('annotatetext', 'annotate'));
+        $mform->setType('text', PARAM_RAW);
+        $mform->addRule('text', null, 'required');
+
+        $this->add_action_buttons();
     }
 }
