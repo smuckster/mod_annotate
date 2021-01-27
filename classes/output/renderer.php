@@ -28,11 +28,6 @@ class renderer extends plugin_renderer_base {
 
         $mform = new edit_text_form;
 
-        // if ($mform->is_cancelled()) {
-        //     redirect($returnurl);
-        // } else if ($fromform = $mform->get_data()) {
-
-        // }
         $html .= $mform->render();
 
         return $html;
@@ -42,9 +37,4 @@ class renderer extends plugin_renderer_base {
         $context = $page->export_for_template($this);
         return $this->render_from_template('mod_annotate/view', $context);
     }
-
-    /*protected function render_new_text(\mod_annotate\output\new_text $page) {
-        $context = $page->export_for_template($this);
-        return $this->render_from_template('mod_annotate/new_text', $context);
-    }*/
 }
