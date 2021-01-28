@@ -39,9 +39,29 @@ function annotate_add_instance($annotate, $mform = null) {
     $annotate->document = $tempdocument;
     $annotate->documentformat = $tempdocumentformat;
 
-    // var_dump($annotate);
+    // Add indexes to each tag in the html for the document.
+    // This will make it easier to store annotations later on
+    // (or that's the theory at least...)
+    $index = 1;
+    $appendto = true;
+    $indexeddocument = '';
+    $splitdocument = preg_split('/(<[^\/][A-Za-z0-9]*)/', $annotate->document, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+
+    foreach($splitdocument as $split) {
+        if ($appendto) {
+            $indexeddocument .= $split . " data-index='$index'";
+        } else {
+            $indexeddocument .= $split;
+        }
+        $index++;
+        $appendto = $appendto ? false : true;
+    }
+    $annotate->document = $indexeddocument;
+
+    // var_dump($indexeddocument);
     // die();
 
+    // Save annotation instance in the database
     $annotate->id = $DB->insert_record('annotate', $annotate);
 
     return $annotate->id;
