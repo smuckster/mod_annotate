@@ -74,8 +74,22 @@ function annotate_add_instance($annotate, $mform = null) {
  * @param stdClass $annotate the object given my mod_annotate_mod_form
  * @return boolean
  */
-function annotate_update_instance($annotate) {
+function annotate_update_instance($annotate, $mform) {
     global $DB;
+
+    $record = $DB->get_record('annotate', ['id' => $annotate->instance]);
+
+    foreach($record as $key => $val){
+        if(isset($annotate->$key)){
+            $record->$key = $val;
+        }
+    }
+
+    $record->document = $annotate->document['text'];
+    $record->documentformat = $annotate->document['format'];
+    
+    $DB->update_record('annotate', $record);
+    return true;
 }
 
 /**
