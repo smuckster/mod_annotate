@@ -65,8 +65,11 @@ class mod_annotate_mod_form extends moodleform_mod {
 
     public function data_preprocessing(&$default_values) {
         if ($this->current->instance) {
-            // var_dump($default_values);
-            // die();
+            $format = $default_values['contentformat'];
+            $text = file_prepare_draft_area($draftitemid, $this->context->id, 'mod_annotate',
+                'document', 0, annotate_get_editor_options($this->context), $default_values['document']);
+
+            $default_values['document'] = ['format'=>$format, 'text'=>$text];
         }
     }
 }
