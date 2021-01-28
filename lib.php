@@ -49,11 +49,11 @@ function annotate_add_instance($annotate, $mform = null) {
 
     foreach($splitdocument as $split) {
         if ($appendto) {
-            $indexeddocument .= $split . " data-index='$index'";
+            $indexeddocument .= $split . " id='index-$index'";
+            $index++;
         } else {
             $indexeddocument .= $split;
         }
-        $index++;
         $appendto = $appendto ? false : true;
     }
     $annotate->document = $indexeddocument;

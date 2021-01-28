@@ -37,7 +37,7 @@ class annotate {
         }
 
         $this->name = $annotate->name;
-        $this->document = format_text($annotate->document);
+        $this->document = format_text($annotate->document, FORMAT_HTML, ['allowid' => true, 'filter' => false, 'noclean' => true]);
         $this->type = $annotate->type;
     } 
 }
