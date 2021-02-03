@@ -12,11 +12,11 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * Version information
- * 
+ *
  * @package mod_annotate
  * @copyright 2021 Sam Smucker
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

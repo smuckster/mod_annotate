@@ -12,7 +12,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace mod_annotate\output;
 
@@ -39,7 +39,7 @@ class view implements templatable, renderable {
     /**
      * Function to export the renderer data in a format that
      * is suitable for a mustache template.
-     * 
+     *
      * @param \renderer_base $output Used to do a final render
      * of any components that need to be rendered for export.
      * @return stdClass|array

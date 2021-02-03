@@ -12,10 +12,11 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace mod_annotate;
 
+defined('MOODLE_INTERNAL') || die();
 require_once('lib.php');
 class annotate {
     public $name;
@@ -27,11 +28,11 @@ class annotate {
      * Construct a new annotate object by accepting
      * its course module id then loading relevant data
      * from the database.
-     * 
+     *
      * @param integer $cmid Course module id
      */
     public function __construct($cmid) {
-        // Get records for this instance from the database
+        // Get records for this instance from the database.
         if (! $annotate = annotate_get_annotate($cmid)) {
             print_error('invalidcoursemodule');
         }
@@ -39,5 +40,5 @@ class annotate {
         $this->name = $annotate->name;
         $this->document = format_text($annotate->document, FORMAT_HTML, ['allowid' => true, 'filter' => false, 'noclean' => true]);
         $this->type = $annotate->type;
-    } 
+    }
 }

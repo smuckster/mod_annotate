@@ -12,11 +12,10 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once('../../config.php');
 require_once('lib.php');
-//require_once(__DIR__ . '/classes/forms/new_text_form.php');
 
 $cmid = required_param('id', PARAM_INT);
 
@@ -35,7 +34,7 @@ require_course_login($course, false, $cm);
 
 $context = context_module::instance($cmid);
 
-// Create a new annotate instance that we can use
+// Create a new annotate instance that we can use.
 $annotate = new \mod_annotate\annotate($cm->instance);
 
 $PAGE->set_title($annotate->name);

@@ -1,4 +1,4 @@
-//import jQuery from 'jquery';
+import $ from 'jquery';
 
 export const init = () => {
     // Allow highlighted notes to be saved
@@ -21,6 +21,7 @@ export const init = () => {
             // We also need to store the index of the #text node
             // in the context of the anchor parent node's childNodes array.
             let anchorNodeIndex = Array.prototype.indexOf.call(anchor.childNodes, selection.anchorNode);
+            let anchorOffset = selection.anchorOffset;
 
             // Do the same for the focus node.
             let focus = selection.focusNode;
@@ -31,42 +32,81 @@ export const init = () => {
             let focusElementIndex = focus.getAttribute('id');
             // Again, get the index of the child #text node
             let focusNodeIndex = Array.prototype.indexOf.call(focus.childNodes, selection.focusNode);
+            let focusOffset = selection.focusOffset;
 
             // Assemble a storable annotation object
             let annotation = {
-                anchorElementIndex: anchorElementIndex,
-                anchorOffset: selection.anchorOffset,
-                anchorNodeIndex: anchorNodeIndex,
-                focusElementIndex: focusElementIndex,
-                focusOffset: selection.focusOffset,
-                focusNodeIndex: focusNodeIndex,
-                text: selection.toString()
+                anchorElementIndex,
+                anchorOffset,
+                anchorNodeIndex,
+                focusElementIndex,
+                focusOffset,
+                focusNodeIndex
             };
+
+            // If the focus node comes before the anchor node:
+            // (Compare the number from the node's id attribute,
+            // which begins at the 6th character of the id.)
+            if (Number(focusElementIndex.substring(6)) < Number(anchorElementIndex.substring(6))) {
+                annotation = swapAnnotationVariables(annotation);
+            }
+            // If the focus node is the same as the anchor node:
+            else if (Number(focusElementIndex.substring(6)) == Number(anchorElementIndex.substring(6))) {
+                // If the focus node's offset is smaller than
+                // the anchor node's offset:
+                if (selection.focusOffset < selection.anchorOffset) {
+                    annotation = swapAnnotationVariables(annotation);
+                }
+            }
+
+            // TODO:
+            // Let the user add a note to the selection.
+            // When the user clicks the "save" button, save
+            // the complete note + annotation in the database.
+
             window.console.log(annotation);
         }
     });
 
     // Allow saved notes to be retrieved
-    let loadButton = document.querySelector('.load-button');
-    loadButton.addEventListener('click', () => {
+    let loadButton = $('.load-button');
+    loadButton.on('click', () => {
         // Dummy annotation object for testing
-        // let annotation = {
-        //     anchorIndex: '13',
-        //     anchorOffset: 308,
-        //     focusIndex: '13',
-        //     focusOffset: 324,
-        //     text: 'im et ante moles'
-        // };
+        let annotation = {
+            anchorElementIndex: 'index-2',
+            anchorOffset: 108,
+            anchorNodeIndex: 0,
+            focusElementIndex: 'index-2',
+            focusOffset: 124,
+            focusNodeIndex: 0,
+            text: 'im et ante moles'
+        };
 
-        // let anchor = document.querySelector(`[data-index="${annotation.anchorIndex}"]`);
-        // let focus = document.querySelector(`[data-index="${annotation.focusIndex}"]`);
+        let anchorElement = document.querySelector(`#${annotation.anchorElementIndex}`);
+        let focusElement = document.querySelector(`#${annotation.focusElementIndex}`);
 
-        // We have to find the index of the appropriate child node
-        // of the anchor and focus nodes. There can be many child nodes
-        // for one element node, but each has a "length" property.
-        // So we need to compare the offset property to each element's
-        // length property in the anchor.childNodes array to find the correct
-        // child node.
-        // let anchorText = anchor.childNodes[0];
+        let anchorNode = anchorElement.childNodes[annotation.anchorNodeIndex];
+        let focusNode = focusElement.childNodes[annotation.focusNodeIndex];
+
+        let selection = window.getSelection();
+        // selection.removeAllRanges();
+        // selection.addRange(new Range());
+        selection.setBaseAndExtent(anchorNode, annotation.anchorOffset, focusNode, annotation.focusOffset);
+
+        // Add an absolutely positioned element above the highlighted text
     });
+};
+
+const swapAnnotationVariables = annotation => {
+    const tempAnnotation = {...annotation};
+
+    // Swap anchor and focus variables
+    annotation.anchorElementIndex = tempAnnotation.focusElementIndex;
+    annotation.anchorOffset = tempAnnotation.focusOffset;
+    annotation.anchorNodeIndex = tempAnnotation.focusNodeIndex;
+    annotation.focusElementIndex = tempAnnotation.anchorElementIndex;
+    annotation.focusOffset = tempAnnotation.anchorOffset;
+    annotation.focusNodeIndex = tempAnnotation.anchorNodeIndex;
+
+    return annotation;
 };
