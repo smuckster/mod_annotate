@@ -14,18 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace mod_annotate\output;
-
-use plugin_renderer_base;
-use html_writer;
-use \mod_annotate\forms\edit_text_form;
-
-defined('MOODLE_INTERNAL') || die();
-
-class renderer extends plugin_renderer_base {
-
-    protected function render_view(\mod_annotate\output\view $page) {
-        $context = $page->export_for_template($this);
-        return $this->render_from_template('mod_annotate/view', $context);
-    }
+class mod_annotate_view_testcase extends advanced_testcase {
+    
 }
